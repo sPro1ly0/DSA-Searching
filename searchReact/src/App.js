@@ -19,10 +19,10 @@ class App extends Component {
   // indexOf(array, value) {
   //   let count = 0;
   //   for (let i = 0; i < array.length; i++) {
+  //     count++;
   //     if (array[i] == value) {
   //       return this.setState({ message: `Item ${value} is found. Number of Searches: ${count}.` });
   //     }
-  //     count++;
   //   }
   //   return this.setState({ message: `Item not found, -1. Number of Searches: ${count}.` });
   // }
