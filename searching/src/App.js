@@ -1,0 +1,81 @@
+import React, { Component } from 'react';
+import './App.css';
+
+
+
+let dataSet = [89, 30, 25, 32, 72, 70, 51, 42, 25, 24, 53, 55, 78, 50, 13, 40, 48, 32, 26, 2, 14, 33, 45, 72, 56, 44, 21, 88, 27, 68, 15, 62, 93, 98, 73, 28, 16, 46, 87, 28, 65, 38, 67, 16, 85, 63, 23, 69, 64, 91, 9, 70, 81, 27, 97, 82, 6, 88, 3, 7, 46, 13, 11, 64, 76, 31, 26, 38, 28, 13, 17, 69, 90, 1, 6, 7, 64, 43, 9, 73, 80, 98, 46, 27, 22, 87, 49, 83, 6, 39, 42, 51, 54, 84, 34, 53, 78, 40, 14, 5];
+let sortedDataSet = dataSet.sort();
+
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+      message: null
+    }
+  }
+
+  // indexOf(array, value) {
+  //   let count = 0;
+  //   for (let i = 0; i < array.length; i++) {
+  //     if (array[i] == value) {
+  //       return this.setState({ message: `Item ${value} is found. Number of Searches: ${count}.` });
+  //     }
+  //     count++;
+  //   }
+  //   return this.setState({ message: `Item not found, -1. Number of Searches: ${count}.` });
+  // }
+  
+  binarySearch(array, value, start, end, numOfSearches) {
+    var start = start === undefined ? 0 : start;
+    var end = end === undefined ? array.length : end;
+    let count = numOfSearches === undefined ? 0 : numOfSearches;
+    if (start > end) {
+      return this.setState({ message: `Item not found, -1. Number of Searches: ${count}.` });
+    }
+  
+    const index = Math.floor((start + end) / 2);
+    const item = array[index];
+  
+    if (item == value) {
+      return this.setState({ message: `Item ${value} is found. Number of Searches: ${count + 1}.` });
+    } else if (item < value) {
+      return this.binarySearch(array, value, index + 1, end, count + 1);
+    } else if (item > value) {
+      return this.binarySearch(array, value, start, index - 1, count + 1);
+    }
+  
+  }
+
+  handleInput(e) {
+    this.setState({
+      value: e.target.value
+    })
+  }
+
+  keyPressed(e) {
+    if (e.key === "Enter") {
+      this.binarySearch(sortedDataSet, this.state.value);
+    }
+  }
+   
+  render() {
+    return (
+      <div className="App">
+        <label htmlFor="value">Binary Search: </label>
+        <input 
+          type="text"
+          id="value"
+          name="value"
+          value={this.state.value}
+          onChange={(e) => this.handleInput(e)}
+          onKeyPress={(e) => this.keyPressed(e)} />
+        <p>{this.state.message}</p>
+      </div>
+    );
+  }
+
+}
+
+export default App;
