@@ -274,4 +274,121 @@ function postOrder(t) {
 // console.log(postOrder(tree)); // 4, 12, 10, 22, 18, 24, 15, 31, 44, 35, 66, 90, 70, 50, 25
 
 // 6. Find the next commanding officer
+// Breadth-first search, works across the rows of trees
+// Need a queue w/ FIFO
+// order Captain Picard, Commander Riker, Commander Data, Lt. Cmdr. Worf, Lt. Cmdr. LaForge, Lt. Cmdr. Crusher, Lieutenant security-officer, Lieutenant Selar
 
+class _Node {
+    constructor(value, next) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+class Queue {
+    constructor() {
+        this.first = null;
+        this.last = null;
+    }
+
+    enqueue(value) {
+        const node = new _Node(value);
+
+        if (this.first === null) {
+            this.first = node;
+        }
+
+        if (this.last) {
+            this.last.next = node;
+        }
+        
+        this.last = node;
+    }
+
+    dequeue() {
+        if (this.first === null) {
+            return;
+        }
+
+        const node = this.first;
+        this.first = this.first.next;
+
+        if (this.last === node) {
+            this.last = null;
+        }
+
+        return node.value;
+    }
+}
+
+const rankOfCommand = new BinarySearchTree();
+rankOfCommand.insert(5, 'Captain Picard');
+rankOfCommand.insert(6, 'Commander Data');
+rankOfCommand.insert(3, 'Commander Riker');
+rankOfCommand.insert(2, 'Lt. Cmdr. Worf');
+rankOfCommand.insert(4, 'Lt. Cmdr. LaForge');
+rankOfCommand.insert(8, 'Lt. Cmdr. Crusher');
+rankOfCommand.insert(1, 'Lieutenant security-officer');
+rankOfCommand.insert(7, 'Lieutenant Selar');
+
+function listOfficers(tree, result = []) {
+    const queue = new Queue();
+    const t = tree;
+    // console.log(t);
+    queue.enqueue(t);
+  
+    while(queue.first) {
+      const node = queue.dequeue();
+      result.push(node.value);
+        
+      // left more experience, higher rank, enqueue first
+      if (node.left) {
+        queue.enqueue(node.left);
+      }
+      // lower rank enqueue last
+      if (node.right) {
+        queue.enqueue(node.right);
+      }
+    }
+  
+    return result;
+}
+  
+// console.log(listOfficers(rankOfCommand));
+
+// 7. Max Profit
+
+function maxProfit(list) {
+    let profit = 0;
+
+    for (let i = 0; i < list.length; i++) {
+        if (list[i] < list[i + 1]) {
+            profit += (list[i + 1] - list[i]);
+        }
+    }
+
+    return profit;
+}
+
+let shares = [128, 97, 121, 123, 98, 97, 105];
+// console.log(maxProfit(shares)); // 34
+
+function eggDrop() {
+    let f = 1;
+    while (f*(f + 1) / 2 < 100) {
+      f++;
+    }
+
+    let floor = f;
+    let count = 0;
+  
+    while (floor <= 100) {
+      console.log(`Drop ${count + 1} at floor ${floor}`);
+      count++;
+      floor += f - count
+    }
+
+    if (floor > 100) console.log(`Drop ${count + 1} at floor 100`);
+}
+  
+eggDrop();
